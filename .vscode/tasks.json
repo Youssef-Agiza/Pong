@@ -1,0 +1,26 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "cppbuild",
+      "label": "C/C++: g++ compile pong",
+      "command": "/bin/g++",
+      "args": [
+        "-fdiagnostics-color=always",
+        "-g",
+        "*.cpp",
+        "-o",
+        "pong",
+        "-lsfml-graphics",
+        "-lsfml-window",
+        "-lsfml-system"
+      ],
+      "options": {
+        "cwd": "${fileDirname}"
+      },
+      "problemMatcher": ["$gcc"],
+      "group": "build",
+      "detail": "compiler: /bin/g++"
+    }
+  ]
+}
