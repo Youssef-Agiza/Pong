@@ -1,44 +1,42 @@
 #include "bat.hpp"
 
-Bat::Bat(const sf::Vector2f &position, sf::Keyboard::Key upKey, sf::Keyboard::Key downKey) : m_upKey(upKey), m_downKey(downKey)
+Bat::Bat(const sf::Vector2f &position, sf::Keyboard::Key upKey, sf::Keyboard::Key downKey) : m_upKey(upKey), m_downKey(downKey), m_originalPosition(position)
 {
-    this->m_shape.setSize(sf::Vector2f(BAT_WIDTH, BAT_HEIGHT));
+    this->m_shape.setSize(BAT_SIZE);
+    this->m_shape.setOrigin(BAT_SIZE / 2.f);
     this->m_shape.setPosition(position);
     this->m_shape.setFillColor(sf::Color::White);
-    this->m_d = Direction::STATIC;
-    this->m_shape.setOutlineColor(sf::Color::Red);
-    this->m_shape.setOutlineThickness(1);
+    this->m_direction = Direction::STATIC;
 }
 
-void Bat::move()
+void Bat::move(float dt)
 {
-    if (currentTime.getElapsedTime().asMilliseconds() < SPEED_TIMER)
-        return;
 
-    const float step = (this->m_d == Direction::STATIC) ? 0 : (this->m_d == Direction::UP) ? -STEP_SIZE
-                                                                                           : STEP_SIZE;
     auto position = this->m_shape.getPosition();
-    const float curY = position.y;
-
-    if ((curY - step <= 0 && m_d == Direction::UP) ||
-        (curY + step >= SCREEN_HEIGHT && m_d == Direction::DOWN))
+    if ((position.y + (BAT_SIZE.y / 2.0f)) >= SCREEN_HEIGHT && m_direction == Direction::DOWN)
+        return;
+    if ((position.y - (BAT_SIZE.y / 2.0f)) <= 0 && m_direction == Direction::UP)
         return;
 
-    this->m_shape.move(0, step);
-    currentTime.restart();
+    this->m_shape.move(0, m_direction * BAT_SPEED * 2.5 * dt); //* BAT_SPEED * dt);
 }
 
 void Bat::changeDirection(const sf::Keyboard::Key &keyPressed)
 {
 
     if (keyPressed == this->m_upKey)
-        this->m_d = UP;
+        this->m_direction = UP;
 
     if (keyPressed == this->m_downKey)
-        this->m_d = DOWN;
+        this->m_direction = DOWN;
 }
 
 void Bat::draw(sf::RenderWindow &w)
 {
     w.draw(this->m_shape);
+}
+
+void Bat::reset()
+{
+    this->m_shape.setPosition(m_originalPosition);
 }
