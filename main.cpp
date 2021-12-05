@@ -1,27 +1,96 @@
 
 #include <iostream>
 #include <SFML/Graphics.hpp>
-#include <SFML/Graphics/RectangleShape.hpp>
 #include "bat.hpp"
 #include "ball.hpp"
+// #include <boost/interprocess/shared_memory_object.hpp>
+// #include <boost/interprocess/mapped_region.hpp>
+#include <boost/interprocess/shared_memory_object.hpp>
+#include <boost/interprocess/mapped_region.hpp>
+#include <cstring>
+#include <cstdlib>
+#include <string>
+namespace bip = boost::interprocess;
 
-Bat bat1(sf::Vector2f(10, SCREEN_HEIGHT / 2.f), p1UpKey, p1DownKey);
 Bat bat2(sf::Vector2f(SCREEN_WIDTH - 10, SCREEN_HEIGHT / 2.f), p2UpKey, p2DownKey);
+Bat bat1(sf::Vector2f(10, SCREEN_HEIGHT / 2.f), p1UpKey, p1DownKey);
 Ball ball(&bat1, &bat2);
 
 void update(sf::RenderWindow &window);
 void render(sf::RenderWindow &window);
 
-int main()
+int main(int argc, char **argv)
 {
 
-    sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "Pong!");
+    pid_t child_a, child_b;
 
-    while (window.isOpen())
+    sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "Pong 2");
+    child_a = fork();
+
+    if (child_a == 0)
     {
-        update(window);
-        render(window);
+        std::cout << "child 1";
+        // Open already created shared memory object.
+        bip::shared_memory_object shm(bip::open_only, "MySharedMemory", bip::read_only);
+
+        // Map the whole shared memory in this process
+        bip::mapped_region region(shm, bip::read_only);
+
+        // Check that memory was initialized to 1
+        char *mem = static_cast<char *>(region.get_address());
     }
+    else
+    {
+        child_b = fork();
+
+        if (child_b == 0)
+        {
+            std::cout << "child 2";
+
+            // Open already created shared memory object.
+            bip::shared_memory_object shm(bip::open_only, "MySharedMemory", bip::read_only);
+
+            // Map the whole shared memory in this process
+            bip::mapped_region region(shm, bip::read_only);
+
+            // Check that memory was initialized to 1
+            char *mem = static_cast<char *>(region.get_address());
+            std::cout << *mem;
+        }
+        else
+        {
+            std::cout << "parent";
+
+            struct shm_remove
+            {
+                shm_remove() { bip::shared_memory_object::remove("MySharedMemory"); }
+                ~shm_remove() { bip::shared_memory_object::remove("MySharedMemory"); }
+            } remover;
+
+            // Create a shared memory object.
+            bip::shared_memory_object shm(bip::create_only, "MySharedMemory", bip::read_write);
+
+            // Set size
+            shm.truncate(1000);
+
+            // Map the whole shared memory in this process
+
+            // Write all the memory to 1
+            bip::mapped_region region(shm, bip::read_write);
+
+            std::memset(region.get_address(), 1, 10);
+
+            // Launch child process
+        }
+    }
+
+    // sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "Pong!");
+    //  while (window.isOpen())
+    //  {
+    //      update(window);
+    //      render(window);
+    //  }
+
     return 0;
 }
 

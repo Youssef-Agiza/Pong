@@ -2,10 +2,11 @@
 #ifndef DEFS_H
 #define DEFS_H
 #include <SFML/Graphics.hpp>
+#include <unistd.h>
 
 // screen
-#define SCREEN_WIDTH 400
-#define SCREEN_HEIGHT 400
+#define SCREEN_WIDTH 600
+#define SCREEN_HEIGHT 800
 
 // bats
 #define BAT_SPEED 50000.f

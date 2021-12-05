@@ -18,8 +18,6 @@ void Ball ::draw(sf::RenderWindow &w) const
     w.draw(this->m_shape);
 }
 
-int Ball::isCollision() const { return false; }
-
 void Ball::reset()
 {
     this->m_bat1->reset();

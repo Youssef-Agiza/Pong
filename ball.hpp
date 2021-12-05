@@ -16,9 +16,6 @@ private:
     float m_ballSpeedX;
     float m_ballSpeedY;
 
-    // returns 0 if not collision, 1 if collided with left bat, 2 if collided with right bat, -1 if wall
-    int isCollision() const;
-
 public:
     Ball(Bat *bat1, Bat *bat2);
     ~Ball();

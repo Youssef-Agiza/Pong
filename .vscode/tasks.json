@@ -13,7 +13,8 @@
         "pong",
         "-lsfml-graphics",
         "-lsfml-window",
-        "-lsfml-system"
+        "-lsfml-system",
+        "-lrt"
       ],
       "options": {
         "cwd": "${fileDirname}"
