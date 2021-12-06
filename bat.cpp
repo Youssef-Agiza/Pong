@@ -21,6 +21,11 @@ void Bat::move(float dt)
     this->m_shape.move(0, m_direction * BAT_SPEED * 2.5 * dt); //* BAT_SPEED * dt);
 }
 
+void Bat::setPosition(float x, float y)
+{
+    this->m_shape.setPosition(x, y);
+}
+
 void Bat::changeDirection(const sf::Keyboard::Key &keyPressed)
 {
 

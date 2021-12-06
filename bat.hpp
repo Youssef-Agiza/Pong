@@ -22,8 +22,10 @@ public:
     void move(float dt);
     void draw(sf::RenderWindow &w);
 
+    void setPosition(float x, float y);
     inline float getX() const { return this->m_shape.getPosition().x; }
     inline float getY() const { return this->m_shape.getPosition().y; }
+
     inline const sf::Keyboard::Key &getUpKey() const { return this->m_upKey; };
     inline const sf::Keyboard::Key &getDownKey() const
     {

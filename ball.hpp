@@ -22,6 +22,10 @@ public:
 
     void move(float dt);
 
+    void setPosition(float x, float y);
+    float getX() const { return this->m_shape.getPosition().x; }
+    float getY() const { return this->m_shape.getPosition().y; }
+
     void draw(sf::RenderWindow &w) const;
     void reset();
 };

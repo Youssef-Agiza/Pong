@@ -28,6 +28,11 @@ void Ball::reset()
     m_ballSpeedY = BALL_SPEED_Y;
 }
 
+void Ball::setPosition(float x, float y)
+{
+    this->m_shape.setPosition(x, y);
+}
+
 void Ball::move(float dt)
 {
     float bat1X = this->m_bat1->getX();
