@@ -19,77 +19,49 @@ bool gameOver = false;
 void update(sf::RenderWindow &window);
 void render(sf::RenderWindow &window);
 
+key_t key = ftok("shmfile", 65);
+int shmid = shmget(key, 1024, 0666 | IPC_CREAT);
+float *ballX = (float *)shmat(shmid, (void *)0, 0);
+
 int main(int argc, char **argv)
 {
 
+    // sf::Vector2f *bat1Pos = (sf::Vector2f *)shmat(shmid, (void *)0, 0);
+    // sf::Vector2f *bat2Pos = (sf::Vector2f *)shmat(shmid, (void *)0, 0);
+
     pid_t child_a, child_b;
 
-    sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "Pong 2");
-
     child_a = fork();
-
-    // if (child_a == 0)
-    // {
-    //     std::cout << "child 1";
-    //     // Open already created shared memory object.
-    //     bip::shared_memory_object shm(bip::open_only, "MySharedMemory", bip::read_only);
-
-    //     // Map the whole shared memory in this process
-    //     bip::mapped_region region(shm, bip::read_only);
-
-    //     // Check that memory was initialized to 1
-    //     char *mem = static_cast<char *>(region.get_address());
-    // }
-    // else
-    // {
-    //     child_b = fork();
-
-    //     if (child_b == 0)
-    //     {
-    //         std::cout << "child 2";
-
-    //         // Open already created shared memory object.
-    //         bip::shared_memory_object shm(bip::open_only, "MySharedMemory", bip::read_only);
-
-    //         // Map the whole shared memory in this process
-    //         bip::mapped_region region(shm, bip::read_only);
-
-    //         // Check that memory was initialized to 1
-    //         char *mem = static_cast<char *>(region.get_address());
-    //         std::cout << *mem;
-    //     }
-    //     else
-    //     {
-    //         std::cout << "parent";
-
-    //         struct shm_remove
-    //         {
-    //             shm_remove() { bip::shared_memory_object::remove("MySharedMemory"); }
-    //             ~shm_remove() { bip::shared_memory_object::remove("MySharedMemory"); }
-    //         } remover;
-
-    //         // Create a shared memory object.
-    //         bip::shared_memory_object shm(bip::create_only, "MySharedMemory", bip::read_write);
-
-    //         // Set size
-    //         shm.truncate(1000);
-
-    //         // Map the whole shared memory in this process
-
-    //         // Write all the memory to 1
-    //         bip::mapped_region region(shm, bip::read_write);
-
-    //         std::memset(region.get_address(), 1, 10);
-
-    //         // Launch child process
-    //     }
-    // }
-
-    // sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "Pong!");
-    while (window.isOpen())
+    if (child_a == 0)
     {
-        update(window);
-        render(window);
+        // key_t key = ftok("shmfile", 65);
+
+        sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "Pong 1!");
+        while (window.isOpen())
+        {
+            update(window);
+            render(window);
+        }
+    }
+    else
+    {
+        child_b = fork();
+        if (child_b == 0)
+        {
+            // key_t key = ftok("shmfile", 65);
+
+            // int shmid = shmget(key, 1024, 0666 | IPC_CREAT);
+            sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "Pong 2!");
+            while (window.isOpen())
+            {
+
+                update(window);
+                render(window);
+            }
+
+            // destroy the shared memory
+            shmctl(shmid, IPC_RMID, NULL);
+        }
     }
 
     return 0;
@@ -102,6 +74,9 @@ void update(sf::RenderWindow &window)
     float dt = clock.restart().asSeconds();
 
     ball.move(dt);
+
+    float ballX = ball.getX(), ballY = ball.getY();
+    // float
 
     while (window.pollEvent(e))
     {
