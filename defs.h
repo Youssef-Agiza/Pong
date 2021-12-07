@@ -1,8 +1,6 @@
 #pragma once
 #ifndef DEFS_H
 #define DEFS_H
-#include <SFML/Graphics.hpp>
-#include <unistd.h>
 
 // screen
 #define SCREEN_WIDTH 600
@@ -14,8 +12,9 @@ const sf::Vector2f BAT_SIZE(10, 100);
 
 // ball
 #define BALL_RADIUS 5
-#define BALL_SPEED_X 100
-#define BALL_SPEED_Y 60
+#define BALL_SPEED_X 150
+#define BALL_SPEED_Y 90
+#define BALL_SPEED_FACTOR 1.0f
 
 // controls
 const sf::Keyboard::Key p1UpKey = sf::Keyboard::W;
@@ -25,8 +24,6 @@ const sf::Keyboard::Key p2DownKey = sf::Keyboard::Down;
 
 // win/lose
 #define WIN_SCORE 10
-extern bool gameOver;
-extern int score;
 // directoins
 enum Direction
 {

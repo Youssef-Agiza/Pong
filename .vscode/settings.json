@@ -58,6 +58,8 @@
     "set": "cpp",
     "thread": "cpp",
     "typeindex": "cpp",
-    "variant": "cpp"
+    "variant": "cpp",
+    "*.ipp": "cpp",
+    "globals.h": "c"
   }
 }

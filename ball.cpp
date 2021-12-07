@@ -45,8 +45,8 @@ void Ball::move(float dt)
 
     if (ballY >= SCREEN_HEIGHT || ballY <= 0) // collide with bottom
     {
-        m_ballSpeedX *= 1.1f;
-        m_ballSpeedY *= -1.1f;
+        m_ballSpeedX *= BALL_SPEED_FACTOR;
+        m_ballSpeedY *= -BALL_SPEED_FACTOR;
 
         if (ballY >= SCREEN_HEIGHT)
             this->m_shape.move(0, -10);
@@ -65,12 +65,12 @@ void Ball::move(float dt)
              ballY > bat1Y - (BAT_SIZE.y * 0.5))   // bat top edge
     {
 
-        m_ballSpeedX *= -1.1f;
+        m_ballSpeedX *= -BALL_SPEED_FACTOR;
 
         if (ballY > bat1Y) // top part
-            m_ballSpeedY *= (m_ballSpeedY > 0) ? 1.1f : -1.1f;
+            m_ballSpeedY *= (m_ballSpeedY > 0) ? BALL_SPEED_FACTOR : -BALL_SPEED_FACTOR;
         else if (ballY < bat1Y) // bottom part
-            m_ballSpeedY *= (m_ballSpeedY < 0) ? 1.1f : -1.1f;
+            m_ballSpeedY *= (m_ballSpeedY < 0) ? BALL_SPEED_FACTOR : -BALL_SPEED_FACTOR;
         else
             m_ballSpeedY = 0;
     }
@@ -78,12 +78,12 @@ void Ball::move(float dt)
              ballY < bat2Y + (BAT_SIZE.y * 0.5) &&   // bat bottom edge
              ballY > bat2Y - (BAT_SIZE.y * 0.5))     // bat top edge
     {
-        m_ballSpeedX *= -1.1f;
+        m_ballSpeedX *= -BALL_SPEED_FACTOR;
 
         if (ballY > bat2Y) // top part
-            m_ballSpeedY *= (m_ballSpeedY > 0) ? 1.1f : -1.1f;
+            m_ballSpeedY *= (m_ballSpeedY > 0) ? BALL_SPEED_FACTOR : -BALL_SPEED_FACTOR;
         else if (ballY < bat2Y) // bottom part
-            m_ballSpeedY *= (m_ballSpeedY < 0) ? 1.1f : -1.1f;
+            m_ballSpeedY *= (m_ballSpeedY < 0) ? BALL_SPEED_FACTOR : -BALL_SPEED_FACTOR;
         else
             m_ballSpeedY = 0;
     }

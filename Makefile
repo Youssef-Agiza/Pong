@@ -2,8 +2,8 @@
       
 LIBS=  -lsfml-graphics -lsfml-window -lsfml-system -lrt
 
-SRC= ball.cpp bat.cpp main.cpp
-HEADERS= ball.hpp bat.hpp defs.h
+SRC= ball.cpp bat.cpp main.cpp sharedMem.cpp utils.cpp globals.cpp
+HEADERS= ball.hpp bat.hpp defs.h sharedMem.h utils.h common.h globals.h
 FLAGS= -g
 GCC= g++
 

@@ -1,3 +1,0 @@
-- bats
-- ball
-- window
