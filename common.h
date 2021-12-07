@@ -10,8 +10,6 @@
 #include <stdio.h>
 #include <sys/ipc.h>
 #include <sys/shm.h>
-#include "bat.hpp"
-#include "ball.hpp"
-#include "sharedMem.h"
+#include <sys/wait.h>
 
-#endif //COMMON_H
+#endif // COMMON_H

@@ -9,6 +9,14 @@ pid_t child_a, child_b;
 int main(int argc, char **argv)
 {
 
+    // inside the main loop, between window.clear() and window.display()
+
+    // while (w.isOpen())
+    // {
+
+    //     w.draw(text);
+    //     w.display();
+    // }
     child_a = fork();
     if (child_a == 0)
         child_logic();
@@ -22,6 +30,6 @@ int main(int argc, char **argv)
             parent_logic();
     }
 
-    clean();
+    wait(NULL);
     return 0;
 }

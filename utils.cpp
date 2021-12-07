@@ -7,6 +7,8 @@ void render(sf::RenderWindow &window)
     bat1->draw(window);
     bat2->draw(window);
     ball->draw(window);
+    score1->draw(window);
+    score2->draw(window);
 
     window.display();
 }
@@ -25,16 +27,19 @@ void child_logic()
     while (window1.isOpen())
     {
 
+        read_score(*sharedData);
         read_bats(*sharedData);
         read_ball(*sharedData);
         update_bats_on_event(window1, *sharedData);
         write_bats(*sharedData);
         render(window1);
     }
-
     shmdt(sharedData);
     // destroy the shared memory
     shmctl(shmid, IPC_RMID, NULL);
+    clean();
+
+    exit(EXIT_SUCCESS);
 }
 
 void parent_logic()
@@ -53,9 +58,11 @@ void parent_logic()
         update_ball(*sharedData);
         // write here
         write_ball(*sharedData);
+        write_score(*sharedData);
     }
     // detach from shared memory
     shmdt(sharedData);
+    clean();
 }
 
 void clean()

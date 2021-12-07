@@ -1,9 +1,9 @@
 
       
-LIBS=  -lsfml-graphics -lsfml-window -lsfml-system -lrt
+LIBS=  -lsfml-graphics -lsfml-window -lsfml-system #-lrt
 
-SRC= ball.cpp bat.cpp main.cpp sharedMem.cpp utils.cpp globals.cpp
-HEADERS= ball.hpp bat.hpp defs.h sharedMem.h utils.h common.h globals.h
+SRC= ball.cpp bat.cpp main.cpp sharedMem.cpp utils.cpp globals.cpp score.cpp
+HEADERS= ball.hpp bat.hpp defs.h sharedMem.h utils.h common.h globals.h score.hpp
 FLAGS= -g
 GCC= g++
 

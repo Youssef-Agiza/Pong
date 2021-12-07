@@ -23,7 +23,7 @@ struct sharedMemData
 
 void initialize_shared_data(sharedMemData &sharedData);
 
-void update_ball(const sharedMemData &pos);
+void update_ball(sharedMemData &pos);
 
 void update_dt(sharedMemData &sharedMem);
 

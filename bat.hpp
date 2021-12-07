@@ -2,7 +2,7 @@
 #ifndef BAT_H
 #define BAT_H
 
-#include <SFML/Graphics.hpp>
+#include "common.h"
 #include "defs.h"
 
 class Bat

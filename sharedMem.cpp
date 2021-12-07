@@ -8,6 +8,11 @@ void update_bats_on_event(sf::RenderWindow &window, sharedMemData &pos)
     float dt = clock.restart().asSeconds();
     // std::cout << dt;
     // float
+    if (pos.gameOver)
+    {
+        window.close();
+        return;
+    }
     while (window.pollEvent(e))
     {
         if (e.type == sf::Event::Closed)
@@ -31,10 +36,22 @@ void initialize_shared_data(sharedMemData &sharedData)
 {
     sharedData.bat1Y = SCREEN_HEIGHT / 2;
     sharedData.bat2Y = SCREEN_HEIGHT / 2;
+    sharedData.gameOver = false;
+    std::cout << "initilization: \n";
+    sharedData.score1 = 0;
+    sharedData.score2 = 0;
 }
-void update_ball(const sharedMemData &pos)
+void update_ball(sharedMemData &pos)
 {
-    ball->move(pos.dt);
+    int res = ball->move(pos.dt);
+
+    if (res == -1)
+        score2->setScore(score2->getScore() + 1);
+
+    if (res == 1)
+        score1->setScore(score1->getScore() + 1);
+
+    pos.gameOver = (score1->getScore() >= WIN_SCORE) || (score2->getScore() >= WIN_SCORE);
 }
 
 void update_dt(sharedMemData &sharedMem)
@@ -65,11 +82,11 @@ void write_bats(sharedMemData &pos)
 
 void read_score(const sharedMemData &pos)
 {
-    score1 = pos.score1;
-    score2 = pos.score2;
+    score1->setScore(pos.score1);
+    score2->setScore(pos.score2);
 }
 void write_score(sharedMemData &pos)
 {
-    pos.score1 = score1;
-    pos.score2 = score2;
+    pos.score1 = score1->getScore();
+    pos.score2 = score2->getScore();
 }

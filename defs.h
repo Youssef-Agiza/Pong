@@ -23,7 +23,7 @@ const sf::Keyboard::Key p2UpKey = sf::Keyboard::Up;
 const sf::Keyboard::Key p2DownKey = sf::Keyboard::Down;
 
 // win/lose
-#define WIN_SCORE 10
+#define WIN_SCORE 3
 // directoins
 enum Direction
 {

@@ -1,5 +1,5 @@
 #include "ball.hpp"
-#include "defs.h"
+#include "bat.hpp"
 
 Ball::Ball(Bat *bat1, Bat *bat2) : m_bat1(bat1), m_bat2(bat2), m_ballSpeedX(-BALL_SPEED_X), m_ballSpeedY(BALL_SPEED_Y)
 {
@@ -33,7 +33,7 @@ void Ball::setPosition(float x, float y)
     this->m_shape.setPosition(x, y);
 }
 
-void Ball::move(float dt)
+int Ball::move(float dt)
 {
     float bat1X = this->m_bat1->getX();
     float bat1Y = this->m_bat1->getY();
@@ -52,12 +52,13 @@ void Ball::move(float dt)
             this->m_shape.move(0, -10);
         else
             this->m_shape.move(0, 10);
-        return;
+        return 0;
     }
     else if (ballX >= SCREEN_WIDTH || ballX <= 0)
     {
+        int res = (ballX >= SCREEN_WIDTH) ? 1 : -1;
         this->reset();
-        return;
+        return res;
     }
 
     else if (ballX <= BAT_SIZE.x &&                // bat x cooridantes
@@ -88,4 +89,5 @@ void Ball::move(float dt)
             m_ballSpeedY = 0;
     }
     this->m_shape.move(m_ballSpeedX * dt, m_ballSpeedY * dt);
+    return 0;
 }

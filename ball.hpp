@@ -2,9 +2,10 @@
 
 #ifndef BALL_H
 #define BALL_H
-#include <SFML/Graphics.hpp>
-#include "bat.hpp"
 
+#include "common.h"
+#include "defs.h"
+class Bat;
 class Ball
 {
 
@@ -20,7 +21,8 @@ public:
     Ball(Bat *bat1, Bat *bat2);
     ~Ball();
 
-    void move(float dt);
+    // returns 1 if player 2 lost, -1 if player 1
+    int move(float dt);
 
     void setPosition(float x, float y);
     float getX() const { return this->m_shape.getPosition().x; }
