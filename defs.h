@@ -26,7 +26,7 @@ const sf::Keyboard::Key p2DownKey = sf::Keyboard::Down;
 // win/lose
 #define WIN_SCORE 10
 extern bool gameOver;
-
+extern int score;
 // directoins
 enum Direction
 {
